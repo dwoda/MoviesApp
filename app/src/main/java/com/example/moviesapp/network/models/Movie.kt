@@ -1,7 +1,8 @@
 package com.example.moviesapp.network.models
 
+import com.google.gson.annotations.SerializedName
+
 data class Movie(
+    @SerializedName("title")
     val title: String
 )
-
-//https://api.themoviedb.org/3/discover/movie?api_key=4b25d5b4a04998375abc2359d7cc8e13
