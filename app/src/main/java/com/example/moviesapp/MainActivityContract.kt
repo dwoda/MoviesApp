@@ -15,6 +15,7 @@ interface MainActivityContract{
 
     interface View {
         fun setTitle(title: String)
+        fun setImage()
     }
 
     interface Presenter {

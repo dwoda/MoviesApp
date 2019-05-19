@@ -5,7 +5,7 @@ import com.example.moviesapp.network.models.configuration.Configuration
 import retrofit2.Call
 import retrofit2.http.GET
 
-interface MoviesApi {
+interface ImagesApi {
     @GET("discover/movie?api_key=${ApiConstants.apiKey}}")
     fun getMovies(): Call<DiscoverMoviesResponse>
 
