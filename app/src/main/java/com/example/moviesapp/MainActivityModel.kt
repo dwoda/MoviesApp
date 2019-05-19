@@ -1,48 +1,34 @@
 package com.example.moviesapp
 
 import com.example.moviesapp.network.MoviesApi
-import com.example.moviesapp.network.models.DiscoverResponse
-import com.google.gson.GsonBuilder
+import com.example.moviesapp.network.MoviesApiClient
+import com.example.moviesapp.network.models.DiscoverMoviesResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivityModel : MainActivityContract.Model {
 
-    override fun getMovies(OnFinishedListener: MainActivityContract.Model.OnFinishedListener) {
+    override fun getMovies(onFinishedListener: MainActivityContract.Model.OnFinishedListener) {
 
-        val baseUrl = "https://api.themoviedb.org/3/"
+        MoviesApiClient()
+            .getClient()
+            .create(MoviesApi::class.java)
+            .getMovies()
+            .enqueue(object : Callback<DiscoverMoviesResponse> {
 
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val moviesApi = retrofit.create(MoviesApi::class.java)
-        val call = moviesApi.getMovies()
-
-        call.enqueue(object : Callback<DiscoverResponse> {
-
-            override fun onResponse(call: Call<DiscoverResponse>?, response: Response<DiscoverResponse>?) {
-                if (response!!.isSuccessful) {
-                    val discoverResponse = response.body()
-                    OnFinishedListener.onFinished(discoverResponse)
-                } else {
-                    println(response.errorBody())
+                override fun onResponse(call: Call<DiscoverMoviesResponse>?, moviesResponse: Response<DiscoverMoviesResponse>?) {
+                    if (moviesResponse!!.isSuccessful) {
+                        val discoverResponse = moviesResponse.body()
+                        onFinishedListener.onFinished(discoverResponse)
+                    } else {
+                        println(moviesResponse.errorBody())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<DiscoverResponse>?, t: Throwable?) {
-                OnFinishedListener.onFailure(t!!)
-            }
-
-        })
+                override fun onFailure(call: Call<DiscoverMoviesResponse>?, t: Throwable?) {
+                    onFinishedListener.onFailure(t!!)
+                }
+            })
     }
-
 }

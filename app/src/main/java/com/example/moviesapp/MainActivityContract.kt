@@ -1,12 +1,12 @@
 package com.example.moviesapp
 
-import com.example.moviesapp.network.models.DiscoverResponse
+import com.example.moviesapp.network.models.DiscoverMoviesResponse
 
 interface MainActivityContract{
 
     interface Model {
         interface OnFinishedListener {
-            fun onFinished(discoverResponse: DiscoverResponse)
+            fun onFinished(discoverMoviesResponse: DiscoverMoviesResponse)
             fun onFailure(throwable: Throwable)
         }
 
