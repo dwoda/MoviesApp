@@ -7,13 +7,10 @@ import retrofit2.http.GET
 
 interface ImagesApi {
     @GET("discover/movie?api_key=${ApiConstants.apiKey}}")
-    fun getMovies(): Call<DiscoverMoviesResponse>
+    fun getImage(): Call<DiscoverMoviesResponse>
 
     @GET("configuration?api_key=${ApiConstants.apiKey}")
     fun getConfiguration(): Call<Configuration>
-
-
-
 }
 
 

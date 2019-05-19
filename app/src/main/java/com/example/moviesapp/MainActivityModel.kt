@@ -1,5 +1,7 @@
 package com.example.moviesapp
 
+import com.example.moviesapp.network.ImagesApi
+import com.example.moviesapp.network.ImagesApiClient
 import com.example.moviesapp.network.MoviesApi
 import com.example.moviesapp.network.MoviesApiClient
 import com.example.moviesapp.network.models.DiscoverMoviesResponse

@@ -10,6 +10,11 @@ interface MainActivityContract{
             fun onFailure(throwable: Throwable)
         }
 
+        interface OnImageFinishedListener {
+            fun onFinished(discoverMoviesResponse: DiscoverMoviesResponse)
+            fun onFailure(throwable: Throwable)
+        }
+
         fun getMovies(onFinishedListener: OnFinishedListener)
     }
 

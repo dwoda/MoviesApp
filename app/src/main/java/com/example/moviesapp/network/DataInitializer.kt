@@ -15,7 +15,7 @@ class DataInitializer {
             .enqueue(object : Callback<Configuration> {
 
                 override fun onResponse(call: Call<Configuration>?, response: Response<Configuration>?) {
-                    Urls.imagesBaseUrl = response!!.body().images.baseUrl
+                    ApiConstants.Urls.imagesBaseUrl = response!!.body().images.baseUrl
                 }
 
                 override fun onFailure(call: Call<Configuration>?, t: Throwable?) {
