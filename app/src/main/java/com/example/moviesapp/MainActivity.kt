@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         presenter.attachView(this)
     }
 
-    override fun setTitle(newTitle: String) {
-        movieTitle.text = newTitle
+    override fun setTitle(title: String) {
+        movieTitle.text = title
     }
 }
