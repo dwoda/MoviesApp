@@ -1,10 +1,8 @@
 package com.example.moviesapp
 
-import com.example.moviesapp.network.ImagesApi
-import com.example.moviesapp.network.ImagesApiClient
-import com.example.moviesapp.network.MoviesApi
-import com.example.moviesapp.network.MoviesApiClient
-import com.example.moviesapp.network.models.DiscoverMoviesResponse
+import com.example.moviesapp.api.movies.MoviesApi
+import com.example.moviesapp.api.movies.MoviesApiClient
+import com.example.moviesapp.api.movies.models.DiscoverMoviesResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
