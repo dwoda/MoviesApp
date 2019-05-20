@@ -1,17 +1,12 @@
 package com.example.moviesapp
 
-import com.example.moviesapp.api.movies.models.DiscoverMoviesResponse
+import com.example.moviesapp.api.movies.models.DiscoverMovies
 
 interface MainActivityContract{
 
     interface Model {
         interface OnFinishedListener {
-            fun onFinished(discoverMoviesResponse: DiscoverMoviesResponse)
-            fun onFailure(throwable: Throwable)
-        }
-
-        interface OnImageFinishedListener {
-            fun onFinished(discoverMoviesResponse: DiscoverMoviesResponse)
+            fun onFinished(discoverMovies: DiscoverMovies)
             fun onFailure(throwable: Throwable)
         }
 
@@ -20,7 +15,6 @@ interface MainActivityContract{
 
     interface View {
         fun setTitle(title: String)
-        fun setImage()
     }
 
     interface Presenter {

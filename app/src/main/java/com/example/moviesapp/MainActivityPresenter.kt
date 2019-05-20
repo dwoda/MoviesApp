@@ -1,14 +1,14 @@
 package com.example.moviesapp
 
-import com.example.moviesapp.api.movies.models.DiscoverMoviesResponse
+import com.example.moviesapp.api.movies.models.DiscoverMovies
 
 class MainActivityPresenter : MainActivityContract.Presenter, MainActivityContract.Model.OnFinishedListener {
 
     private val model = MainActivityModel()
     private lateinit var view: MainActivityContract.View
 
-    override fun onFinished(discoverMoviesResponse: DiscoverMoviesResponse) {
-        view.setTitle(discoverMoviesResponse.results[0].title)
+    override fun onFinished(discoverMovies: DiscoverMovies) {
+        view.setTitle(discoverMovies.results[0].title)
     }
 
     override fun onFailure(throwable: Throwable) {

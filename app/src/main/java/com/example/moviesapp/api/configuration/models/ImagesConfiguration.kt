@@ -1,8 +1,8 @@
-package com.example.moviesapp.api.images.model
+package com.example.moviesapp.api.configuration.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Images(
+data class ImagesConfiguration(
 
     @SerializedName("base_url")
     val baseUrl: String,

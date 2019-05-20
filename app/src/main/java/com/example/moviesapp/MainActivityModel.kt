@@ -2,7 +2,7 @@ package com.example.moviesapp
 
 import com.example.moviesapp.api.movies.MoviesApi
 import com.example.moviesapp.api.movies.MoviesApiClient
-import com.example.moviesapp.api.movies.models.DiscoverMoviesResponse
+import com.example.moviesapp.api.movies.models.DiscoverMovies
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,18 +15,18 @@ class MainActivityModel : MainActivityContract.Model {
             .getClient()
             .create(MoviesApi::class.java)
             .getMovies()
-            .enqueue(object : Callback<DiscoverMoviesResponse> {
+            .enqueue(object : Callback<DiscoverMovies> {
 
-                override fun onResponse(call: Call<DiscoverMoviesResponse>?, moviesResponse: Response<DiscoverMoviesResponse>?) {
-                    if (moviesResponse!!.isSuccessful) {
-                        val discoverResponse = moviesResponse.body()
-                        onFinishedListener.onFinished(discoverResponse)
+                override fun onResponse(call: Call<DiscoverMovies>?, movies: Response<DiscoverMovies>?) {
+                    if (movies!!.isSuccessful) {
+                        val discoverResponse = movies.body()
+                        onFinishedListener.onFinished(discoverResponse!!)
                     } else {
-                        println(moviesResponse.errorBody())
+                        println(movies.errorBody())
                     }
                 }
 
-                override fun onFailure(call: Call<DiscoverMoviesResponse>?, t: Throwable?) {
+                override fun onFailure(call: Call<DiscoverMovies>?, t: Throwable?) {
                     onFinishedListener.onFailure(t!!)
                 }
             })
