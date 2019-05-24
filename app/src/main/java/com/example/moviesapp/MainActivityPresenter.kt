@@ -1,10 +1,12 @@
 package com.example.moviesapp
 
 import com.example.moviesapp.api.movies.models.DiscoverMovies
+import javax.inject.Inject
 
-class MainActivityPresenter : MainActivityContract.Presenter, MainActivityContract.Model.OnFinishedListener {
+class MainActivityPresenter @Inject constructor(private val model: MainActivityModel) :
+    MainActivityContract.Presenter,
+    MainActivityContract.Model.OnFinishedListener {
 
-    private val model = MainActivityModel()
     private lateinit var view: MainActivityContract.View
 
     override fun onFinished(discoverMovies: DiscoverMovies) {
