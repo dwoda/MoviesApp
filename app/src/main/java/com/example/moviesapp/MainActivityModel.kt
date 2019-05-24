@@ -6,12 +6,13 @@ import com.example.moviesapp.api.movies.models.DiscoverMovies
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainActivityModel : MainActivityContract.Model {
+class MainActivityModel @Inject constructor(private val moviesApiClient: MoviesApiClient) : MainActivityContract.Model {
 
     override fun getMovies(onFinishedListener: MainActivityContract.Model.OnFinishedListener) {
 
-        MoviesApiClient()
+        moviesApiClient
             .getClient()
             .create(MoviesApi::class.java)
             .getMovies()
