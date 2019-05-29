@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         presenter.attachView(this)
     }
 
-    override fun setTitle(movieList: List<Movie>) {
+    override fun setTitles(movieList: List<Movie>) {
         progressBar.visibility = View.GONE
 
         viewManager = LinearLayoutManager(this)

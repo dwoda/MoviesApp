@@ -15,7 +15,7 @@ interface MainActivityContract{
     }
 
     interface View {
-        fun setTitle(movieList: List<Movie>)
+        fun setTitles(movieList: List<Movie>)
     }
 
     interface Presenter {

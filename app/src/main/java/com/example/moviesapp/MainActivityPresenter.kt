@@ -10,7 +10,7 @@ class MainActivityPresenter @Inject constructor(private val model: MainActivityM
     private lateinit var view: MainActivityContract.View
 
     override fun onFinished(discoverMovies: DiscoverMovies) {
-        view.setTitle(discoverMovies.results.subList(0,10))
+        view.setTitles(discoverMovies.results.subList(0,10))
     }
 
     override fun onFailure(throwable: Throwable) {
