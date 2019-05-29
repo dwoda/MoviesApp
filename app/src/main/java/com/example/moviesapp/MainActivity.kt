@@ -1,8 +1,11 @@
 package com.example.moviesapp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.moviesapp.api.movies.models.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -11,6 +14,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     @Inject
     lateinit var presenter: MainActivityPresenter
 
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -18,9 +23,15 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         presenter.attachView(this)
     }
 
-    override fun setTitle(title: String) {
-        movieTitle.text = title
-        movieTitleProgressBar.visibility = View.GONE
-        movieTitle.visibility = View.VISIBLE
+    override fun setTitles(movieList: List<Movie>) {
+        progressBar.visibility = View.GONE
+
+        viewManager = LinearLayoutManager(this)
+
+        movies_recycler_view.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = MoviesAdapter(movieList)
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.moviesapp
 
 import com.example.moviesapp.api.movies.models.DiscoverMovies
+import com.example.moviesapp.api.movies.models.Movie
 
 interface MainActivityContract{
 
@@ -14,7 +15,7 @@ interface MainActivityContract{
     }
 
     interface View {
-        fun setTitle(title: String)
+        fun setTitles(movieList: List<Movie>)
     }
 
     interface Presenter {
