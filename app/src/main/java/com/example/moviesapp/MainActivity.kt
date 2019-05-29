@@ -1,10 +1,10 @@
 package com.example.moviesapp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.api.movies.models.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
         viewManager = LinearLayoutManager(this)
 
-        findViewById<RecyclerView>(R.id.movies_recycler_view).apply {
+        movies_recycler_view.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = MoviesAdapter(movieList)
