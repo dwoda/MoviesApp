@@ -1,18 +1,20 @@
 package com.example.moviesapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.api.movies.models.Movie
+import com.example.moviesapp.details.MovieDetailsActivity
 
 class MoviesAdapter(private val movies: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
-    class MovieViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
-        val movieTitle: TextView = v.findViewById(R.id.movie_title)
-        val movieRating: TextView = v.findViewById(R.id.movie_rating)
+    class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val movieTitle: TextView = view.findViewById(R.id.movie_title)
+        val movieRating: TextView = view.findViewById(R.id.movie_rating)
     }
 
     override fun onCreateViewHolder(
@@ -28,8 +30,18 @@ class MoviesAdapter(private val movies: List<Movie>) :
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.movieTitle.text = movies[position].title
-        holder.movieRating.text = movies[position].rating
+        val movie = movies[position]
+
+        holder.movieTitle.text = movie.title
+        holder.movieRating.text = movie.rating
+
+        holder.view.setOnClickListener {
+            val intent =
+                Intent(it.context, MovieDetailsActivity::class.java)
+                    .apply { putExtra("MOVIE_ID", movie.id) }
+
+            it.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = movies.size
