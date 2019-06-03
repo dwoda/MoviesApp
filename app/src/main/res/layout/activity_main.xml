@@ -23,6 +23,12 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/movies_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/error_loading_data" />
+
     </FrameLayout>
 
 

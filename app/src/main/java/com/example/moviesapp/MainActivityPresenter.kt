@@ -14,7 +14,7 @@ class MainActivityPresenter @Inject constructor(private val model: MainActivityM
     }
 
     override fun onFailure(throwable: Throwable) {
-        throwable.printStackTrace()
+        view.displayError(throwable.message)
     }
 
     override fun attachView(view: MainActivityContract.View) {
