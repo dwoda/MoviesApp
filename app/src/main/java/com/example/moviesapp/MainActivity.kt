@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     override fun displayError(message: String?) {
         progressBar.visibility = View.GONE
         movies_recycler_view.visibility = View.GONE
+        movies_error.visibility = View.VISIBLE
         movies_error.text = message ?: resources.getString(R.string.error_loading_data)
     }
 
