@@ -1,7 +1,5 @@
 package com.example.moviesapp.details
 
-import com.example.moviesapp.api.movies.models.DiscoverMovies
-import com.example.moviesapp.api.movies.models.Movie
 import com.example.moviesapp.api.movies.models.MovieDetails
 
 interface MovieDetailsContract {

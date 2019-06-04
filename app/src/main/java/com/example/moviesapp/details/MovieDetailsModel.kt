@@ -19,19 +19,8 @@ class MovieDetailsModel @Inject constructor(private val moviesApiClient: MoviesA
             .getMovieDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                object : SingleObserver<MovieDetails> {
-                    override fun onSuccess(movieDetails: MovieDetails) {
-                        onFinishedListener.onFinished(movieDetails)
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onFinishedListener.onFailure(e)
-                    }
-                }
-            )
+            .doOnSuccess { onFinishedListener.onFinished(it) }
+            .doOnError { onFinishedListener.onFailure(it) }
+            .subscribe()
     }
 }

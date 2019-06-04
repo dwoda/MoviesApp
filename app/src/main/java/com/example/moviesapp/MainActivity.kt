@@ -49,9 +49,4 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         movies_error.visibility = View.GONE
         movies_recycler_view.visibility = View.GONE
     }
-
-
-//    mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-//             mLayoutManager.getOrientation());
-//     recyclerView.addItemDecoration(mDividerItemDecoration);
 }

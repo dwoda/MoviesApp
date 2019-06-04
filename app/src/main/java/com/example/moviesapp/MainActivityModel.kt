@@ -2,10 +2,7 @@ package com.example.moviesapp
 
 import com.example.moviesapp.api.movies.MoviesApi
 import com.example.moviesapp.api.movies.MoviesApiClient
-import com.example.moviesapp.api.movies.models.DiscoverMovies
-import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 

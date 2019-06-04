@@ -1,6 +1,7 @@
 package com.example.moviesapp.details
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviesapp.DaggerAppDependencies
 import com.example.moviesapp.R
@@ -21,13 +22,23 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
         setContentView(R.layout.movie_details)
         DaggerAppDependencies.create().inject(this)
         presenter.attachView(this)
+        setInitialState()
+    }
+
+    private fun setInitialState() {
+        movie_details.visibility = View.GONE
+        details_progress_bar.visibility = View.VISIBLE
     }
 
     override fun setDetails(movie: MovieDetails) {
+        details_progress_bar.visibility = View.GONE
+        movie_details.visibility = View.VISIBLE
         movie_detail_title.text = movie.title
     }
 
     override fun setError(message: String) {
+        details_progress_bar.visibility = View.GONE
+        movie_details.visibility = View.VISIBLE
         movie_detail_title.text = message
     }
 }
