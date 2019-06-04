@@ -16,10 +16,10 @@ interface MainActivityContract{
 
     interface View {
         fun setTitles(movieList: List<Movie>)
+        fun displayError(message: String?)
     }
 
     interface Presenter {
         fun attachView(view: View)
     }
-
 }

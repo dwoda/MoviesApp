@@ -20,11 +20,13 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         DaggerAppDependencies.create().inject(this)
+        setInitialState()
         presenter.attachView(this)
     }
 
     override fun setTitles(movieList: List<Movie>) {
         progressBar.visibility = View.GONE
+        movies_recycler_view.visibility = View.VISIBLE
 
         viewManager = LinearLayoutManager(this)
 
@@ -33,5 +35,18 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             layoutManager = viewManager
             adapter = MoviesAdapter(movieList)
         }
+    }
+
+    override fun displayError(message: String?) {
+        progressBar.visibility = View.GONE
+        movies_recycler_view.visibility = View.GONE
+        movies_error.visibility = View.VISIBLE
+        movies_error.text = message ?: resources.getString(R.string.error_loading_data)
+    }
+
+    private fun setInitialState() {
+        progressBar.visibility = View.VISIBLE
+        movies_error.visibility = View.GONE
+        movies_recycler_view.visibility = View.GONE
     }
 }
