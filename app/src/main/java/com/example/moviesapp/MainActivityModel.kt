@@ -19,19 +19,8 @@ class MainActivityModel @Inject constructor(private val moviesApiClient: MoviesA
             .getMovies()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                object : SingleObserver<DiscoverMovies> {
-                    override fun onSuccess(movies: DiscoverMovies) {
-                        onFinishedListener.onFinished(movies)
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onError(e: Throwable) {
-                        onFinishedListener.onFailure(e)
-                    }
-                }
-            )
+            .doOnSuccess { onFinishedListener.onFinished(it) }
+            .doOnError { onFinishedListener.onFailure(it) }
+            .subscribe()
     }
 }
