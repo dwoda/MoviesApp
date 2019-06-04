@@ -10,9 +10,9 @@ import kotlinx.android.synthetic.main.movie_details.*
 import javax.inject.Inject
 
 class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
+
     @Inject
     lateinit var presenter: MovieDetailsPresenter
-
 
     override val movieId: Int
         get() = intent.getIntExtra("MOVIE_ID", 0)

@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/margin"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/margin">
 
     <ProgressBar
         android:id="@+id/details_progress_bar"
@@ -25,6 +24,4 @@
             tools:text="Movie Title" />
 
     </LinearLayout>
-
-
 </FrameLayout>
