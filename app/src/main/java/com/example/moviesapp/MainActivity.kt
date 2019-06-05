@@ -1,10 +1,10 @@
 package com.example.moviesapp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.api.movies.models.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -13,8 +13,6 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
     @Inject
     lateinit var presenter: MainActivityPresenter
-
-    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +26,12 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         progressBar.visibility = View.GONE
         movies_recycler_view.visibility = View.VISIBLE
 
-        viewManager = LinearLayoutManager(this)
+        val viewManager = LinearLayoutManager(this)
+        val dividerItemDecorator = DividerItemDecoration(this, viewManager.orientation)
 
         movies_recycler_view.apply {
             setHasFixedSize(true)
+            addItemDecoration(dividerItemDecorator)
             layoutManager = viewManager
             adapter = MoviesAdapter(movieList)
         }

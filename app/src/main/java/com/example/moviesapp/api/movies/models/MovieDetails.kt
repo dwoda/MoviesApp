@@ -2,11 +2,9 @@ package com.example.moviesapp.api.movies.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Movie(
+data class MovieDetails(
     @SerializedName("title")
     val title: String,
-    @SerializedName("vote_average")
-    val rating: String,
-    @SerializedName("id")
-    val id: Int
+    @SerializedName("tagline")
+    val tagline: String
 )
