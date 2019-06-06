@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.moviesapp.DaggerAppDependencies
-import com.example.moviesapp.R
 import com.example.moviesapp.api.movies.models.MovieDetails
 import kotlinx.android.synthetic.main.movie_details.*
 import javax.inject.Inject
+import android.widget.Toast
+import android.util.Log
+import com.bumptech.glide.Glide
+import com.example.moviesapp.R
+
 
 class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
-
     @Inject
     lateinit var presenter: MovieDetailsPresenter
 
@@ -34,6 +37,13 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
         details_progress_bar.visibility = View.GONE
         movie_details.visibility = View.VISIBLE
         movie_detail_title.text = movie.title
+    }
+
+    override fun setImage(imageUrl: String) {
+        Glide
+            .with(this)
+            .load("https://www.gstatic.com/webp/gallery/1.webp")
+            .into(movie_poster)
     }
 
     override fun setError(message: String) {
