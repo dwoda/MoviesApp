@@ -37,9 +37,7 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
         details_progress_bar.visibility = View.GONE
         movie_details.visibility = View.VISIBLE
         movie_detail_title.text = movie.title
-    }
 
-    override fun setImage(imageUrl: String) {
         Glide
             .with(this)
             .load("https://www.gstatic.com/webp/gallery/1.webp")
