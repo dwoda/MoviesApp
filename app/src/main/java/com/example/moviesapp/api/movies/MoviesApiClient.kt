@@ -7,9 +7,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 class MoviesApiClient @Inject constructor() {
-    fun getClient(): Retrofit = Retrofit.Builder()
+
+    private fun getMoviesApi(): MoviesApi = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
+        .create(MoviesApi::class.java)
+
+    fun getMovieDetails(id: Int) = getMoviesApi().getMovieDetails(id)
+
+    fun getMovies() = getMoviesApi().getMovies()
+
+    fun getMovieImages(id: Int) = getMoviesApi().getMovieImages(id)
 }

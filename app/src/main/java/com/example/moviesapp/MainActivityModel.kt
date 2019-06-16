@@ -11,8 +11,6 @@ class MainActivityModel @Inject constructor(private val moviesApiClient: MoviesA
     override fun getMovies(onFinishedListener: MainActivityContract.Model.OnFinishedListener) {
 
         moviesApiClient
-            .getClient()
-            .create(MoviesApi::class.java)
             .getMovies()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

@@ -11,16 +11,26 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MovieDetailsModel @Inject constructor(private val moviesApiClient: MoviesApiClient) : MovieDetailsContract.Model {
-
     override fun getMovieDetails(id: Int, onFinishedListener: MovieDetailsContract.Model.OnFinishedListener) {
         moviesApiClient
-            .getClient()
-            .create(MoviesApi::class.java)
             .getMovieDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { onFinishedListener.onFinished(it) }
             .doOnError { onFinishedListener.onFailure(it) }
+            .subscribe()
+    }
+
+    override fun getMoviePosters(
+        id: Int,
+        onPosterFinishedListener: MovieDetailsContract.Model.OnPosterFinishedListener
+    ) {
+        moviesApiClient
+            .getMovieImages(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess { onPosterFinishedListener.onPosterFinished(it) }
+            .doOnError { onPosterFinishedListener.onPosterFailure(it) }
             .subscribe()
     }
 }

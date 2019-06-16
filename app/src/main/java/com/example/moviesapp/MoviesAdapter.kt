@@ -1,13 +1,18 @@
 package com.example.moviesapp
 
+import android.content.ContentProvider
+import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.api.movies.models.Movie
 import com.example.moviesapp.details.MovieDetailsActivity
+import java.security.AccessController.getContext
 
 class MoviesAdapter(private val movies: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
@@ -33,7 +38,10 @@ class MoviesAdapter(private val movies: List<Movie>) :
         val movie = movies[position]
 
         holder.movieTitle.text = movie.title
-        holder.movieRating.text = movie.rating
+        holder.movieRating.text = movie.rating.toString()
+
+        val color = ContextCompat.getColor(holder.movieRating.context, getRatingColor(movie.rating))
+        (holder.movieRating.background as GradientDrawable).setColor(color)
 
         holder.view.setOnClickListener {
             val intent =
@@ -45,4 +53,16 @@ class MoviesAdapter(private val movies: List<Movie>) :
     }
 
     override fun getItemCount() = movies.size
+
+    private fun getRatingColor(rating: Double): Int {
+
+        val colorResourceId = when (rating.toInt()) {
+            in 0..4 -> R.color.badRating
+            in 5..7 -> R.color.mediumRating
+            else -> R.color.goodRating
+        }
+
+        return colorResourceId
+
+    }
 }

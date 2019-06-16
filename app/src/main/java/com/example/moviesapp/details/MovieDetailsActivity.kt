@@ -33,20 +33,30 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
         details_progress_bar.visibility = View.VISIBLE
     }
 
-    override fun setDetails(movie: MovieDetails) {
+    override fun setTitle(title: String) {
         details_progress_bar.visibility = View.GONE
         movie_details.visibility = View.VISIBLE
-        movie_detail_title.text = movie.title
+        movie_detail_title.text = title
+    }
 
-        Glide
-            .with(this)
-            .load("https://www.gstatic.com/webp/gallery/1.webp")
-            .into(movie_poster)
+    override fun setGenres(genres: List<String>) {
+        genre.text = genres.joinToString { it }
+    }
+
+    override fun setReleaseDate(date: String) {
+        release_date.text = date
     }
 
     override fun setError(message: String) {
         details_progress_bar.visibility = View.GONE
         movie_details.visibility = View.VISIBLE
         movie_detail_title.text = message
+    }
+
+    override fun setImage(imageUrl: String) {
+        Glide
+            .with(this)
+            .load(imageUrl)
+            .into(movie_poster)
     }
 }

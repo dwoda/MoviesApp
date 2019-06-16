@@ -6,7 +6,7 @@ data class Movie(
     @SerializedName("title")
     val title: String,
     @SerializedName("vote_average")
-    val rating: String,
+    val rating: Double,
     @SerializedName("id")
     val id: Int
 )
