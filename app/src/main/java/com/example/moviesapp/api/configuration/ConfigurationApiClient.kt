@@ -1,20 +1,12 @@
 package com.example.moviesapp.api.configuration
 
-import com.example.moviesapp.api.ApiConstants
 import com.example.moviesapp.api.ApiConstants.Urls.baseUrl
-import com.example.moviesapp.api.movies.MoviesApi
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.moviesapp.api.RetrofitBuilder
+import javax.inject.Inject
 
-class ConfigurationApiClient {
+class ConfigurationApiClient @Inject constructor(retrofitBuilder: RetrofitBuilder) {
 
-    private val configurationApi = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
-        .create(ConfigurationApi::class.java)
+    private val configurationApi = retrofitBuilder.getImplementation(baseUrl, ConfigurationApi::class.java)
 
     private fun getConfiguration() = configurationApi.getConfiguration()
 }

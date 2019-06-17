@@ -1,7 +1,5 @@
 package com.example.moviesapp
 
-import android.content.ContentProvider
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -12,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.api.movies.models.Movie
 import com.example.moviesapp.details.MovieDetailsActivity
-import java.security.AccessController.getContext
 
 class MoviesAdapter(private val movies: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
@@ -54,15 +51,9 @@ class MoviesAdapter(private val movies: List<Movie>) :
 
     override fun getItemCount() = movies.size
 
-    private fun getRatingColor(rating: Double): Int {
-
-        val colorResourceId = when (rating.toInt()) {
-            in 0..4 -> R.color.badRating
-            in 5..7 -> R.color.mediumRating
-            else -> R.color.goodRating
-        }
-
-        return colorResourceId
-
+    private fun getRatingColor(rating: Double) = when (rating.toInt()) {
+        in 0..4 -> R.color.badRating
+        in 5..7 -> R.color.mediumRating
+        else -> R.color.goodRating
     }
 }

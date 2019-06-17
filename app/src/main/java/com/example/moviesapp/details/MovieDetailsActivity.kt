@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.movie_details.*
 import javax.inject.Inject
 import android.widget.Toast
 import android.util.Log
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.moviesapp.R
 
