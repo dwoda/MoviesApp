@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesapp.api.movies.models.Movie
+import dagger.android.AndroidInjection
+import dagger.android.DaggerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainActivityContract.View {
+class MainActivity : DaggerActivity(), MainActivityContract.View {
 
     @Inject
     lateinit var presenter: MainActivityPresenter
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        DaggerAppDependencies.create().inject(this)
+        AndroidInjection.inject(this)
         setInitialState()
         presenter.attachView(this)
     }

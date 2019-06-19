@@ -2,19 +2,15 @@ package com.example.moviesapp.details
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.example.moviesapp.DaggerAppDependencies
-import com.example.moviesapp.api.movies.models.MovieDetails
-import kotlinx.android.synthetic.main.movie_details.*
-import javax.inject.Inject
-import android.widget.Toast
-import android.util.Log
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.moviesapp.R
+import dagger.android.AndroidInjection
+import dagger.android.DaggerActivity
+import kotlinx.android.synthetic.main.movie_details.*
+import javax.inject.Inject
 
 
-class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
+class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
     @Inject
     lateinit var presenter: MovieDetailsPresenter
 
@@ -24,7 +20,7 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details)
-        DaggerAppDependencies.create().inject(this)
+        AndroidInjection.inject(this)
         presenter.attachView(this)
         setInitialState()
     }

@@ -1,16 +1,15 @@
 package com.example.moviesapp
 
-import com.example.moviesapp.api.movies.MoviesApi
-import com.example.moviesapp.api.movies.MoviesApiClient
+import com.example.moviesapp.api.movies.MoviesService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainActivityModel @Inject constructor(private val moviesApiClient: MoviesApiClient) : MainActivityContract.Model {
+class MainActivityModel @Inject constructor(private val moviesService: MoviesService) : MainActivityContract.Model {
 
     override fun getMovies(onFinishedListener: MainActivityContract.Model.OnFinishedListener) {
 
-        moviesApiClient
+        moviesService
             .getMovies()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
