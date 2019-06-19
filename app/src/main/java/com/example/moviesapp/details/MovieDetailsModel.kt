@@ -2,6 +2,7 @@ package com.example.moviesapp.details
 
 import com.example.moviesapp.api.movies.MoviesService
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
