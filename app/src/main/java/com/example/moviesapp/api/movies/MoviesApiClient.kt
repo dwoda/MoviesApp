@@ -1,15 +1,16 @@
 package com.example.moviesapp.api.movies
 
 import com.example.moviesapp.api.ApiConstants.Urls.baseUrl
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.moviesapp.api.RetrofitBuilder
 import javax.inject.Inject
 
-class MoviesApiClient @Inject constructor() {
-    fun getClient(): Retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
+class MoviesApiClient @Inject constructor(retrofitBuilder: RetrofitBuilder) {
+
+    private val moviesApi = retrofitBuilder.getImplementation(baseUrl, MoviesApi::class.java)
+
+    fun getMovieDetails(id: Int) = moviesApi.getMovieDetails(id)
+
+    fun getMovies() = moviesApi.getMovies()
+
+    fun getMovieImages(id: Int) = moviesApi.getMovieImages(id)
 }
