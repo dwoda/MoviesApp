@@ -8,6 +8,6 @@ object ApiConstants {
 
     object Urls {
         const val baseUrl = "https://api.themoviedb.org/3/"
-        lateinit var imagesBaseUrl: String
+        const val imagesBaseUrl = "http://image.tmdb.org/t/p" // TODO get from configuration API
     }
 }

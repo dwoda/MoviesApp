@@ -1,24 +1,50 @@
 package com.example.moviesapp.details
 
 import android.net.Uri
+import com.example.moviesapp.api.ApiConstants.Urls.imagesBaseUrl
+import com.example.moviesapp.api.movies.MoviesService
 import com.example.moviesapp.api.movies.models.MovieDetails
 import com.example.moviesapp.api.movies.models.MovieImages
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import javax.inject.Inject
 
-class MovieDetailsPresenter @Inject constructor(private val model: MovieDetailsModel) :
-    MovieDetailsContract.Presenter,
-    MovieDetailsContract.Model.OnFinishedListener,
-    MovieDetailsContract.Model.OnPosterFinishedListener {
+class MovieDetailsPresenter @Inject constructor(
+    private val moviesService: MoviesService
+) :
+    MovieDetailsContract.Presenter {
 
-    override fun onPosterFinished(movieImages: MovieImages) {
+    private lateinit var view: MovieDetailsContract.View
 
-        val baseUrl = "http://image.tmdb.org/t/p" // TODO get from configuration API
+    override fun attachView(view: MovieDetailsContract.View) {
+        this.view = view
+        getMovieData()
+    }
+
+    private fun getMovieData() {
+        moviesService
+            .getMovieDetails(view.movieId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess(::setMovieDetails)
+            .doOnError(::setMovieDetailsError)
+            .subscribe()
+
+        moviesService
+            .getMovieImages(view.movieId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess(::setPosterUrl)
+            .doOnError(::setPosterError)
+            .subscribe()
+    }
+
+    private fun setPosterUrl(movieImages: MovieImages) {
         val width = "w154" // TODO get from configuration API
         val path = movieImages.posters[0].file_path.replace("/", "")
 
-        val posterUrl = Uri.parse(baseUrl)
+        val posterUrl = Uri.parse(imagesBaseUrl)
             .buildUpon()
             .appendPath(width)
             .appendPath(path)
@@ -28,26 +54,17 @@ class MovieDetailsPresenter @Inject constructor(private val model: MovieDetailsM
         view.setImage(posterUrl)
     }
 
-    override fun onPosterFailure(throwable: Throwable) {
-
+    private fun setPosterError(throwable: Throwable) {
     }
 
-    private lateinit var view: MovieDetailsContract.View
-
-    override fun onFinished(movieDetails: MovieDetails) {
+    private fun setMovieDetails(movieDetails: MovieDetails) {
         view.setTitle(movieDetails.title)
         view.setGenres(movieDetails.genres.map { it.name })
         view.setReleaseDate(formatDate(movieDetails.release_date))
     }
 
-    override fun onFailure(throwable: Throwable) {
+    private fun setMovieDetailsError(throwable: Throwable) {
         view.setError(throwable.localizedMessage)
-    }
-
-    override fun attachView(view: MovieDetailsContract.View) {
-        this.view = view
-        model.getMovieDetails(view.movieId, this)
-        model.getMoviePosters(view.movieId, this)
     }
 
     private fun formatDate(date: String): String {

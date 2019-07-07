@@ -1,18 +1,19 @@
 package com.example.moviesapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesapp.api.movies.models.Movie
+import com.example.moviesapp.details.MovieDetailsActivity
 import dagger.android.AndroidInjection
 import dagger.android.DaggerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : DaggerActivity(), MainActivityContract.View {
-
     @Inject
     lateinit var presenter: MainActivityPresenter
 
@@ -20,7 +21,6 @@ class MainActivity : DaggerActivity(), MainActivityContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AndroidInjection.inject(this)
-        setInitialState()
         presenter.attachView(this)
     }
 
@@ -35,7 +35,7 @@ class MainActivity : DaggerActivity(), MainActivityContract.View {
             setHasFixedSize(true)
             addItemDecoration(dividerItemDecorator)
             layoutManager = viewManager
-            adapter = MoviesAdapter(movieList)
+            adapter = MoviesAdapter(movieList, presenter)
         }
     }
 
@@ -46,9 +46,16 @@ class MainActivity : DaggerActivity(), MainActivityContract.View {
         movies_error.text = message ?: resources.getString(R.string.error_loading_data)
     }
 
-    private fun setInitialState() {
+    override fun setInitialState() {
         progressBar.visibility = View.VISIBLE
         movies_error.visibility = View.GONE
         movies_recycler_view.visibility = View.GONE
+    }
+
+    override fun openMovieDetails(id: Int) {
+        val intent = Intent(this, MovieDetailsActivity::class.java)
+                .apply { putExtra("MOVIE_ID", id) }
+
+        startActivity(intent)
     }
 }
