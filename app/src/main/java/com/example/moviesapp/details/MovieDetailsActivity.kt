@@ -56,6 +56,5 @@ class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
             .load(imageUrl)
             .error(R.drawable.ic_error_black_24dp)
             .into(movie_poster)
-
     }
 }
