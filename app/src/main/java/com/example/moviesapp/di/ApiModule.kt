@@ -1,5 +1,7 @@
 package com.example.moviesapp.di
 
+import com.example.moviesapp.api.configuration.ConfigurationApi
+import com.example.moviesapp.api.configuration.models.Configuration
 import com.example.moviesapp.api.movies.MoviesApi
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
@@ -13,7 +15,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun providesRetrofitBuilder(gson: GsonConverterFactory, rx: RxJava2CallAdapterFactory) =
+    fun providesRetrofitBuilder(gson: GsonConverterFactory, rx: RxJava2CallAdapterFactory): Retrofit.Builder =
         Retrofit.Builder()
             .addConverterFactory(gson)
             .addCallAdapterFactory(rx)
@@ -27,14 +29,6 @@ class ApiModule {
 
     @Provides
     @Singleton
-    @RetrofitUrl(RetrofitUrlValue.IMAGES)
-    fun providesRetrofitForImages(builder: Retrofit.Builder): Retrofit =
-        builder
-            .baseUrl("https://dupa.com")
-            .build()
-
-    @Provides
-    @Singleton
     fun providesGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
@@ -44,4 +38,8 @@ class ApiModule {
     @Provides
     @Singleton
     fun providesMoviesApi(retrofit: Retrofit): MoviesApi = retrofit.create(MoviesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesConfigurationApi(retrofit: Retrofit): ConfigurationApi = retrofit.create(ConfigurationApi::class.java)
 }

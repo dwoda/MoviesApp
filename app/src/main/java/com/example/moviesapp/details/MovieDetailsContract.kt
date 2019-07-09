@@ -9,6 +9,8 @@ interface MovieDetailsContract {
         fun setImage(imageUrl: String)
         fun setGenres(genres: List<String>)
         fun setReleaseDate(date: String)
+        fun setInitialState()
+        fun displayData()
     }
 
     interface Presenter {

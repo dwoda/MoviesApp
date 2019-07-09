@@ -82,4 +82,12 @@
             tools:text="2019-01-01" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/movie_details_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/error_loading_data" />
+
 </FrameLayout>
