@@ -1,7 +1,6 @@
 package com.example.moviesapp.di
 
 import com.example.moviesapp.api.configuration.ConfigurationApi
-import com.example.moviesapp.api.configuration.models.Configuration
 import com.example.moviesapp.api.movies.MoviesApi
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
