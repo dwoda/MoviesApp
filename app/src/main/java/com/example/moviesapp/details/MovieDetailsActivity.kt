@@ -1,7 +1,5 @@
 package com.example.moviesapp.details
 
-
-
 import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
@@ -10,6 +8,7 @@ import dagger.android.AndroidInjection
 import dagger.android.DaggerActivity
 import kotlinx.android.synthetic.main.movie_details.*
 import javax.inject.Inject
+
 class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
     @Inject
     lateinit var presenter: MovieDetailsPresenter
