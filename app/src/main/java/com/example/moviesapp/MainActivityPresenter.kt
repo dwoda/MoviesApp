@@ -37,7 +37,6 @@ class MainActivityPresenter @Inject constructor(
             .doOnSuccess(::onDataFetchSuccess)
             .doOnError(::onDataFetchError)
             .subscribe({}, {})
-
     }
 
     private fun onDataFetchError(it: Throwable) {
