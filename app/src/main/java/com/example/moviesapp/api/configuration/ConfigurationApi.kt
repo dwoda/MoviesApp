@@ -9,5 +9,3 @@ interface ConfigurationApi {
     @GET("configuration?api_key=${ApiConstants.apiKey}")
     fun getConfiguration(): Single<Configuration>
 }
-
-

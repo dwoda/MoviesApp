@@ -83,7 +83,7 @@ class MovieDetailsPresenter @Inject constructor(
         view.setError(throwable.localizedMessage)
     }
 
-    private fun getProperPosterSize(sizes: List<String>) : String{
+    private fun getProperPosterSize(sizes: List<String>): String {
 
         val maxSizeIndex = 2
 
