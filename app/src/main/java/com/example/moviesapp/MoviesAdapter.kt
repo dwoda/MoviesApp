@@ -1,6 +1,5 @@
 package com.example.moviesapp
 
-import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.api.movies.models.Movie
-import com.example.moviesapp.details.MovieDetailsActivity
 
-class MoviesAdapter(private val movies: List<Movie>) :
-    RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+class MoviesAdapter(private val movies: List<Movie>,
+                    private val presenter: MainActivityContract.Presenter) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val movieTitle: TextView = view.findViewById(R.id.movie_title)
@@ -40,13 +38,7 @@ class MoviesAdapter(private val movies: List<Movie>) :
         val color = ContextCompat.getColor(holder.movieRating.context, getRatingColor(movie.rating))
         (holder.movieRating.background as GradientDrawable).setColor(color)
 
-        holder.view.setOnClickListener {
-            val intent =
-                Intent(it.context, MovieDetailsActivity::class.java)
-                    .apply { putExtra("MOVIE_ID", movie.id) }
-
-            it.context.startActivity(intent)
-        }
+        holder.view.setOnClickListener { presenter.onItemSelected(movie.id) }
     }
 
     override fun getItemCount() = movies.size

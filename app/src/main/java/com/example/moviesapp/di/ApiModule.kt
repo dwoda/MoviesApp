@@ -14,10 +14,15 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun providesRetrofitBuilder(gson: GsonConverterFactory, rx: RxJava2CallAdapterFactory): Retrofit =
+    fun providesRetrofitBuilder(gson: GsonConverterFactory, rx: RxJava2CallAdapterFactory): Retrofit.Builder =
         Retrofit.Builder()
             .addConverterFactory(gson)
             .addCallAdapterFactory(rx)
+
+    @Provides
+    @Singleton
+    fun providesRetrofit(builder: Retrofit.Builder): Retrofit =
+        builder
             .baseUrl("https://api.themoviedb.org/3/")
             .build()
 

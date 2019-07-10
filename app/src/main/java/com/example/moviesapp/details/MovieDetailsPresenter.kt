@@ -1,53 +1,75 @@
 package com.example.moviesapp.details
 
 import android.net.Uri
+import com.example.moviesapp.api.movies.MoviesService
 import com.example.moviesapp.api.movies.models.MovieDetails
 import com.example.moviesapp.api.movies.models.MovieImages
+import com.example.moviesapp.apiconfiguration.ApiConfiguration
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import javax.inject.Inject
 
-class MovieDetailsPresenter @Inject constructor(private val model: MovieDetailsModel) :
-    MovieDetailsContract.Presenter,
-    MovieDetailsContract.Model.OnFinishedListener,
-    MovieDetailsContract.Model.OnPosterFinishedListener {
-
-    override fun onPosterFinished(movieImages: MovieImages) {
-
-        val baseUrl = "http://image.tmdb.org/t/p" // TODO get from configuration API
-        val width = "w154" // TODO get from configuration API
-        val path = movieImages.posters[0].file_path.replace("/", "")
-
-        val posterUrl = Uri.parse(baseUrl)
-            .buildUpon()
-            .appendPath(width)
-            .appendPath(path)
-            .build()
-            .toString()
-
-        view.setImage(posterUrl)
-    }
-
-    override fun onPosterFailure(throwable: Throwable) {
-
-    }
+class MovieDetailsPresenter @Inject constructor(
+    private val moviesService: MoviesService,
+    private val apiConfiguration: ApiConfiguration
+) :
+    MovieDetailsContract.Presenter {
 
     private lateinit var view: MovieDetailsContract.View
 
-    override fun onFinished(movieDetails: MovieDetails) {
-        view.setTitle(movieDetails.title)
-        view.setGenres(movieDetails.genres.map { it.name })
-        view.setReleaseDate(formatDate(movieDetails.release_date))
-    }
+    private val disposables = CompositeDisposable()
 
-    override fun onFailure(throwable: Throwable) {
-        view.setError(throwable.localizedMessage)
+    companion object {
+        lateinit var posterUrl: String
+        lateinit var title: String
+        lateinit var genres: List<String>
+        lateinit var releaseDate: String
+        lateinit var error: String
     }
 
     override fun attachView(view: MovieDetailsContract.View) {
         this.view = view
-        model.getMovieDetails(view.movieId, this)
-        model.getMoviePosters(view.movieId, this)
+        view.setInitialState()
+        getMovieData()
+    }
+
+    override fun detachView() {
+        disposables.clear()
+    }
+
+    private fun getMovieData() {
+        moviesService
+            .getMovieDetails(view.movieId)
+            .doOnSuccess(::saveMovieDetails)
+            .flatMap { moviesService.getMovieImages(view.movieId) }
+            .doOnSuccess(::savePosterUrl)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { setMovieDetails() },
+                { setMovieDetailsError(it) })
+            .addTo(disposables)
+    }
+
+    private fun savePosterUrl(movieImages: MovieImages) {
+        val width = getProperPosterSize(apiConfiguration.images.posterSizes)
+        val path = movieImages.posters[0].file_path
+
+        posterUrl = Uri.parse(apiConfiguration.images.baseUrl)
+            .buildUpon()
+            .appendPath(width)
+            .appendEncodedPath(path)
+            .build()
+            .toString()
+    }
+
+    private fun saveMovieDetails(movieDetails: MovieDetails) {
+        title = movieDetails.title
+        genres = movieDetails.genres.map { it.name }
+        releaseDate = formatDate(movieDetails.release_date)
     }
 
     private fun formatDate(date: String): String {
@@ -55,4 +77,18 @@ class MovieDetailsPresenter @Inject constructor(private val model: MovieDetailsM
         val parsedDate = SimpleDateFormat("yyyy-MM-dd").parse(date)
         return newFormat.format(parsedDate)
     }
+
+    private fun setMovieDetails() {
+        view.setGenres(genres)
+        view.setReleaseDate(releaseDate)
+        view.setTitle(title)
+        view.setImage(posterUrl)
+        view.displayData()
+    }
+
+    private fun setMovieDetailsError(throwable: Throwable) {
+        view.setError(throwable.localizedMessage)
+    }
+
+    private fun getProperPosterSize(sizes: List<String>) = sizes.getOrElse(2) { sizes.last() }
 }
