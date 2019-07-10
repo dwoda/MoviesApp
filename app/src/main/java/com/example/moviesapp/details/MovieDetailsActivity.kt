@@ -2,6 +2,7 @@ package com.example.moviesapp.details
 
 import android.os.Bundle
 import android.view.View
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.moviesapp.R
 import dagger.android.AndroidInjection
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.movie_details.*
 import javax.inject.Inject
 
 class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
+
     @Inject
     lateinit var presenter: MovieDetailsPresenter
 
@@ -53,10 +55,25 @@ class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
     }
 
     override fun setImage(imageUrl: String) {
+
+        val placeholder =
+            CircularProgressDrawable(this)
+                .apply {
+                    setColorSchemeColors(R.color.colorAccent)
+                    strokeWidth = 10f
+                    centerRadius = 30f
+                    start()
+                }
         Glide
             .with(this)
             .load(imageUrl)
+            .placeholder(placeholder)
             .error(R.drawable.ic_error_black_24dp)
             .into(movie_poster)
+    }
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
     }
 }

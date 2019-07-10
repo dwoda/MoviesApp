@@ -53,9 +53,13 @@ class MainActivity : DaggerActivity(), MainActivityContract.View {
     }
 
     override fun openMovieDetails(id: Int) {
-        val intent = Intent(this, MovieDetailsActivity::class.java)
-                .apply { putExtra("MOVIE_ID", id) }
+        Intent(this, MovieDetailsActivity::class.java)
+            .apply { putExtra("MOVIE_ID", id) }
+            .let { startActivity(it) }
+    }
 
-        startActivity(intent)
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
     }
 }

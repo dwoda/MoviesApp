@@ -14,5 +14,6 @@ interface MainActivityContract{
     interface Presenter {
         fun attachView(view: View)
         fun onItemSelected(id: Int)
+        fun detachView()
     }
 }

@@ -15,5 +15,6 @@ interface MovieDetailsContract {
 
     interface Presenter {
         fun attachView(view: View)
+        fun detachView()
     }
 }

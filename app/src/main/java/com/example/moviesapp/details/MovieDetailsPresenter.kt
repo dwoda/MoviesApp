@@ -1,12 +1,13 @@
 package com.example.moviesapp.details
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import com.example.moviesapp.api.movies.MoviesService
 import com.example.moviesapp.api.movies.models.MovieDetails
 import com.example.moviesapp.api.movies.models.MovieImages
 import com.example.moviesapp.apiconfiguration.ApiConfiguration
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -18,6 +19,8 @@ class MovieDetailsPresenter @Inject constructor(
     MovieDetailsContract.Presenter {
 
     private lateinit var view: MovieDetailsContract.View
+
+    private val disposables = CompositeDisposable()
 
     companion object {
         lateinit var posterUrl: String
@@ -33,7 +36,10 @@ class MovieDetailsPresenter @Inject constructor(
         getMovieData()
     }
 
-    @SuppressLint("CheckResult")
+    override fun detachView() {
+        disposables.clear()
+    }
+
     private fun getMovieData() {
         moviesService
             .getMovieDetails(view.movieId)
@@ -42,9 +48,10 @@ class MovieDetailsPresenter @Inject constructor(
             .doOnSuccess(::savePosterUrl)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess { setMovieDetails() }
-            .doOnError { setMovieDetailsError(it) }
-            .subscribe({}, {})
+            .subscribe(
+                { setMovieDetails() },
+                { setMovieDetailsError(it) })
+            .addTo(disposables)
     }
 
     private fun savePosterUrl(movieImages: MovieImages) {
@@ -83,14 +90,5 @@ class MovieDetailsPresenter @Inject constructor(
         view.setError(throwable.localizedMessage)
     }
 
-    private fun getProperPosterSize(sizes: List<String>): String {
-
-        val maxSizeIndex = 2
-
-        return if (sizes.size >= maxSizeIndex - 1) {
-            sizes[maxSizeIndex]
-        } else {
-            sizes.last()
-        }
-    }
+    private fun getProperPosterSize(sizes: List<String>) = sizes.getOrElse(2) { sizes.last() }
 }
