@@ -81,6 +81,15 @@
             app:layout_constraintTop_toBottomOf="@+id/genre"
             tools:text="2019-01-01" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/credits_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/release_date" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
