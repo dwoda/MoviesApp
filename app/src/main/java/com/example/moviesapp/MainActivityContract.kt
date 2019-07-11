@@ -1,6 +1,6 @@
 package com.example.moviesapp
 
-import com.example.moviesapp.api.movies.models.Movie
+import com.example.moviesapp.api.movies.discover.models.Movie
 
 interface MainActivityContract{
 

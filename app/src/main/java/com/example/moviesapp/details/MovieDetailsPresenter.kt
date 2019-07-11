@@ -2,6 +2,7 @@ package com.example.moviesapp.details
 
 import android.net.Uri
 import com.example.moviesapp.api.movies.MoviesService
+import com.example.moviesapp.api.movies.models.Credits
 import com.example.moviesapp.api.movies.models.MovieDetails
 import com.example.moviesapp.api.movies.models.MovieImages
 import com.example.moviesapp.apiconfiguration.ApiConfiguration
@@ -28,6 +29,7 @@ class MovieDetailsPresenter @Inject constructor(
         lateinit var genres: List<String>
         lateinit var releaseDate: String
         lateinit var error: String
+        lateinit var credits: Credits
     }
 
     override fun attachView(view: MovieDetailsContract.View) {
@@ -46,6 +48,8 @@ class MovieDetailsPresenter @Inject constructor(
             .doOnSuccess(::saveMovieDetails)
             .flatMap { moviesService.getMovieImages(view.movieId) }
             .doOnSuccess(::savePosterUrl)
+            .flatMap { moviesService.getMovieCredits(view.movieId) }
+            .doOnSuccess { credits = it }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

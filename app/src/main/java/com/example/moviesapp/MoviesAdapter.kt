@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviesapp.api.movies.models.Movie
+import com.example.moviesapp.api.movies.discover.models.Movie
 
 class MoviesAdapter(private val movies: List<Movie>,
                     private val presenter: MainActivityContract.Presenter) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {

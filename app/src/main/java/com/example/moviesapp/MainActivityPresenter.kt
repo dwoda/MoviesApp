@@ -2,7 +2,8 @@ package com.example.moviesapp
 
 import com.example.moviesapp.api.configuration.ConfigurationService
 import com.example.moviesapp.api.movies.MoviesService
-import com.example.moviesapp.api.movies.models.DiscoverMovies
+import com.example.moviesapp.api.movies.discover.DiscoverService
+import com.example.moviesapp.api.movies.discover.models.DiscoverMovies
 import com.example.moviesapp.apiconfiguration.ApiConfiguration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MainActivityPresenter @Inject constructor(
-    private val moviesService: MoviesService,
+    private val discoverService: DiscoverService,
     private val configurationService: ConfigurationService,
     private val apiConfiguration: ApiConfiguration
 ) :
@@ -38,7 +39,7 @@ class MainActivityPresenter @Inject constructor(
     private fun getInitialData() {
         configurationService.getConfiguration()
             .doOnSuccess { apiConfiguration.setConfiguration(it) }
-            .flatMap { moviesService.getMovies() }
+            .flatMap { discoverService.discoverMovies() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onDataFetchSuccess, ::onDataFetchError)
