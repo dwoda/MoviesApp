@@ -4,13 +4,9 @@ interface MovieDetailsContract {
 
     interface View {
         val movieId: Int
-        fun setTitle(title: String)
-        fun setError(message: String)
-        fun setImage(imageUrl: String)
-        fun setGenres(genres: List<String>)
-        fun setReleaseDate(date: String)
-        fun setInitialState()
-        fun displayData()
+        fun displayDetails(movieDetailsDisplay: MovieDetailsPresenter.MovieDetailsDisplay)
+        fun displayError(message: String)
+        fun displayInitialState()
     }
 
     interface Presenter {

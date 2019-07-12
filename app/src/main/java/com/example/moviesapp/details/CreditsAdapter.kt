@@ -1,14 +1,11 @@
 package com.example.moviesapp.details
 
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.R
-import com.example.moviesapp.api.movies.discover.models.Movie
 import com.example.moviesapp.api.movies.models.CastMember
 
 class CreditsAdapter(
@@ -16,7 +13,8 @@ class CreditsAdapter(
 ) : RecyclerView.Adapter<CreditsAdapter.CreditsViewHolder>() {
 
     class CreditsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.credits_name)
+        val actorName: TextView = view.findViewById(R.id.credits_actor_name)
+        val characterName: TextView = view.findViewById(R.id.credits_character_name)
     }
 
     override fun onCreateViewHolder(
@@ -32,22 +30,11 @@ class CreditsAdapter(
     }
 
     override fun onBindViewHolder(holder: CreditsViewHolder, position: Int) {
-        val credit = cre[position]
+        val credit = credits[position]
 
-        holder.movieTitle.text = movie.title
-        holder.movieRating.text = movie.rating.toString()
-
-        val color = ContextCompat.getColor(holder.movieRating.context, getRatingColor(movie.rating))
-        (holder.movieRating.background as GradientDrawable).setColor(color)
-
-//        holder.view.setOnClickListener { presenter.onItemSelected(movie.id) }
+        holder.actorName.text = credit.name
+        holder.characterName.text = credit.character
     }
 
-    override fun getItemCount() = movies.size
-
-    private fun getRatingColor(rating: Double) = when (rating.toInt()) {
-        in 0..4 -> R.color.badRating
-        in 5..7 -> R.color.mediumRating
-        else -> R.color.goodRating
-    }
+    override fun getItemCount() = credits.size
 }

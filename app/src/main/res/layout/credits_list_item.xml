@@ -6,9 +6,17 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/credits_name"
-        android:layout_width="match_parent"
+        android:id="@+id/credits_actor_name"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:text="John Smith" />
+
+    <TextView
+        android:id="@+id/credits_character_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         tools:text="John Smith" />
 
 </LinearLayout>
