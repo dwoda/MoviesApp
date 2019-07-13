@@ -2,7 +2,7 @@ package com.example.moviesapp
 
 import com.example.moviesapp.api.movies.discover.models.Movie
 
-interface MainActivityContract{
+interface MainActivityContract {
 
     interface View {
         fun setTitles(movieList: List<Movie>)

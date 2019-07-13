@@ -18,5 +18,3 @@ interface MoviesApi {
     @GET("movie/{id}/credits?api_key=${ApiConstants.apiKey}")
     fun getMovieCredits(@Path("id") id: Int): Single<Credits>
 }
-
-

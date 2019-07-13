@@ -1,7 +1,6 @@
 package com.example.moviesapp
 
 import com.example.moviesapp.api.configuration.ConfigurationService
-import com.example.moviesapp.api.movies.MoviesService
 import com.example.moviesapp.api.movies.discover.DiscoverService
 import com.example.moviesapp.api.movies.discover.models.DiscoverMovies
 import com.example.moviesapp.apiconfiguration.ApiConfiguration

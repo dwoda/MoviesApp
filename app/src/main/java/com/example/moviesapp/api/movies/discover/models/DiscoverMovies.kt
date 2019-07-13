@@ -6,4 +6,3 @@ data class DiscoverMovies(
     @SerializedName("results")
     val results: List<Movie>
 )
-
