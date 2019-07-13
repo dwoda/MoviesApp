@@ -66,9 +66,11 @@ class MovieDetailsPresenter @Inject constructor(
     }
 
     private fun saveMovieDetails(movieDetails: MovieDetails) {
-        movieDetailsDisplay.title = movieDetails.title
-        movieDetailsDisplay.genres = movieDetails.genres.map { it.name }
-        movieDetailsDisplay.releaseDate = formatDate(movieDetails.release_date)
+        movieDetailsDisplay.apply {
+            title = movieDetails.title
+            genres = movieDetails.genres.map { it.name }
+            releaseDate = formatDate(movieDetails.release_date)
+        }
     }
 
     private fun formatDate(date: String): String {
