@@ -1,13 +1,18 @@
 package com.example.moviesapp.di
 
+import com.example.moviesapp.api.ApiConstants
 import com.example.moviesapp.api.configuration.ConfigurationApi
 import com.example.moviesapp.api.movies.MoviesApi
 import com.example.moviesapp.api.movies.discover.DiscoverApi
+import com.example.moviesapp.configuration.DeviceConfiguration
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -15,8 +20,13 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun providesRetrofitBuilder(gson: GsonConverterFactory, rx: RxJava2CallAdapterFactory): Retrofit.Builder =
+    fun providesRetrofitBuilder(
+        gson: GsonConverterFactory,
+        rx: RxJava2CallAdapterFactory,
+        client: OkHttpClient
+    ): Retrofit.Builder =
         Retrofit.Builder()
+            .client(client)
             .addConverterFactory(gson)
             .addCallAdapterFactory(rx)
 
@@ -46,4 +56,26 @@ class ApiModule {
     @Provides
     @Singleton
     fun providesDiscoverApi(retrofit: Retrofit): DiscoverApi = retrofit.create(DiscoverApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesDeviceConfiguration(): DeviceConfiguration = DeviceConfiguration(Locale.getDefault())
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(apiConstants: ApiConstants): OkHttpClient =
+        OkHttpClient
+            .Builder()
+            .addInterceptor { chain ->
+                val request = chain.request()
+                val url = request
+                    .url()
+                    .newBuilder()
+                    .addQueryParameter("api_key", apiConstants.apiKey)
+                    .build()
+                val newRequest = request.newBuilder().url(url).build()
+                chain.proceed(newRequest)
+            }
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
 }

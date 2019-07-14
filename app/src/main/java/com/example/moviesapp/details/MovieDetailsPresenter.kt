@@ -1,11 +1,12 @@
 package com.example.moviesapp.details
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import com.example.moviesapp.api.movies.MoviesService
 import com.example.moviesapp.api.movies.models.Credits
 import com.example.moviesapp.api.movies.models.MovieDetails
 import com.example.moviesapp.api.movies.models.MovieImages
-import com.example.moviesapp.apiconfiguration.ApiConfiguration
+import com.example.moviesapp.configuration.ApiConfiguration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -73,6 +74,7 @@ class MovieDetailsPresenter @Inject constructor(
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun formatDate(date: String): String {
         val newFormat = SimpleDateFormat("dd MMMM yyyy")
         val parsedDate = SimpleDateFormat("yyyy-MM-dd").parse(date)

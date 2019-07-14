@@ -1,4 +1,4 @@
-package com.example.moviesapp.apiconfiguration
+package com.example.moviesapp.configuration
 
 import com.example.moviesapp.api.configuration.models.Configuration
 import com.example.moviesapp.api.configuration.models.Images

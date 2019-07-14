@@ -3,7 +3,7 @@ package com.example.moviesapp
 import com.example.moviesapp.api.configuration.ConfigurationService
 import com.example.moviesapp.api.movies.discover.DiscoverService
 import com.example.moviesapp.api.movies.discover.models.DiscoverMovies
-import com.example.moviesapp.apiconfiguration.ApiConfiguration
+import com.example.moviesapp.configuration.ApiConfiguration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
