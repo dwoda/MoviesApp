@@ -8,7 +8,7 @@ class MoviesService @Inject constructor(
 
     fun getMovieDetails(id: Int) = moviesApi.getMovieDetails(id)
 
-    fun getMovies() = moviesApi.getMovies()
-
     fun getMovieImages(id: Int) = moviesApi.getMovieImages(id)
+
+    fun getMovieCredits(id: Int) = moviesApi.getMovieCredits(id)
 }

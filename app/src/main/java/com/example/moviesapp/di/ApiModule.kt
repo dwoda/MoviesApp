@@ -2,6 +2,7 @@ package com.example.moviesapp.di
 
 import com.example.moviesapp.api.configuration.ConfigurationApi
 import com.example.moviesapp.api.movies.MoviesApi
+import com.example.moviesapp.api.movies.discover.DiscoverApi
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -41,4 +42,8 @@ class ApiModule {
     @Provides
     @Singleton
     fun providesConfigurationApi(retrofit: Retrofit): ConfigurationApi = retrofit.create(ConfigurationApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesDiscoverApi(retrofit: Retrofit): DiscoverApi = retrofit.create(DiscoverApi::class.java)
 }

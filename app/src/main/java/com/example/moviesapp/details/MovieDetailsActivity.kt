@@ -2,6 +2,7 @@ package com.example.moviesapp.details
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.moviesapp.R
@@ -11,7 +12,6 @@ import kotlinx.android.synthetic.main.movie_details.*
 import javax.inject.Inject
 
 class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
-
     @Inject
     lateinit var presenter: MovieDetailsPresenter
 
@@ -25,36 +25,36 @@ class MovieDetailsActivity : DaggerActivity(), MovieDetailsContract.View {
         presenter.attachView(this)
     }
 
-    override fun setInitialState() {
+    override fun displayInitialState() {
         movie_details.visibility = View.GONE
         movie_details_error.visibility = View.GONE
         details_progress_bar.visibility = View.VISIBLE
     }
 
-    override fun displayData() {
+    override fun displayDetails(movieDetailsDisplay: MovieDetailsPresenter.MovieDetailsDisplay) {
+        movie_detail_title.text = movieDetailsDisplay.title
+        genre.text = movieDetailsDisplay.genres.joinToString { it }
+        release_date.text = movieDetailsDisplay.releaseDate
+
+        credits_recycler_view.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@MovieDetailsActivity)
+            adapter = CreditsAdapter(movieDetailsDisplay.credits.cast)
+        }
+        setImage(movieDetailsDisplay.posterUrl)
+
         details_progress_bar.visibility = View.GONE
         movie_details.visibility = View.VISIBLE
     }
 
-    override fun setTitle(title: String) {
-        movie_detail_title.text = title
-    }
+    override fun displayError(message: String) {
+        movie_details_error.text = message
 
-    override fun setGenres(genres: List<String>) {
-        genre.text = genres.joinToString { it }
-    }
-
-    override fun setReleaseDate(date: String) {
-        release_date.text = date
-    }
-
-    override fun setError(message: String) {
         details_progress_bar.visibility = View.GONE
         movie_details_error.visibility = View.VISIBLE
-        movie_details_error.text = message
     }
 
-    override fun setImage(imageUrl: String) {
+    private fun setImage(imageUrl: String) {
 
         val placeholder =
             CircularProgressDrawable(this)

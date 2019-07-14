@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviesapp.api.movies.models.Movie
+import com.example.moviesapp.api.movies.discover.models.Movie
 
-class MoviesAdapter(private val movies: List<Movie>,
-                    private val presenter: MainActivityContract.Presenter) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+class MoviesAdapter(
+    private val movies: List<Movie>,
+    private val presenter: MainActivityContract.Presenter
+) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val movieTitle: TextView = view.findViewById(R.id.movie_title)

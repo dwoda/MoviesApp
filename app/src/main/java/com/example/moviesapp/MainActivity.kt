@@ -3,10 +3,9 @@ package com.example.moviesapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.moviesapp.api.movies.models.Movie
+import com.example.moviesapp.api.movies.discover.models.Movie
 import com.example.moviesapp.details.MovieDetailsActivity
 import dagger.android.AndroidInjection
 import dagger.android.DaggerActivity
