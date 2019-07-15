@@ -1,10 +1,11 @@
-package com.example.moviesapp
+package com.example.moviesapp.discover
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.moviesapp.R
 import com.example.moviesapp.api.movies.discover.models.Movie
 import com.example.moviesapp.details.MovieDetailsActivity
 import dagger.android.AndroidInjection

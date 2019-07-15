@@ -1,6 +1,6 @@
 package com.example.moviesapp.di
 
-import com.example.moviesapp.MainActivity
+import com.example.moviesapp.discover.MainActivity
 import com.example.moviesapp.details.MovieDetailsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

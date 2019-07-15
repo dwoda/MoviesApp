@@ -5,8 +5,8 @@ import android.net.Uri
 import com.example.moviesapp.api.movies.MoviesService
 import com.example.moviesapp.api.movies.models.Credits
 import com.example.moviesapp.api.movies.models.MovieDetails
-import com.example.moviesapp.api.movies.models.MovieImages
 import com.example.moviesapp.configuration.ApiConfiguration
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -23,7 +23,6 @@ class MovieDetailsPresenter @Inject constructor(
     private lateinit var view: MovieDetailsContract.View
 
     private val disposables = CompositeDisposable()
-    private val movieDetailsDisplay = MovieDetailsDisplay()
 
     override fun attachView(view: MovieDetailsContract.View) {
         this.view = view
@@ -36,43 +35,58 @@ class MovieDetailsPresenter @Inject constructor(
     }
 
     private fun getMovieData() {
-
         val id = view.movieId
 
         moviesService
             .getMovieDetails(id)
-            .doOnSuccess(::saveMovieDetails)
-            .flatMap { moviesService.getMovieImages(id) }
-            .doOnSuccess(::savePosterUrl)
-            .flatMap { moviesService.getMovieCredits(id) }
-            .doOnSuccess { movieDetailsDisplay.credits = it }
+            .flatMap { convertMovieDetailsToBuilder(it) }
+            .flatMap { addPosterUrl(id, it) }
+            .flatMap { addMovieCredits(id, it) }
+            .flatMap { Single.just(it.build()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { setMovieDetails() },
-                { setMovieDetailsError(it) })
+                { setMovieDetails(it) },
+                { setMovieDetailsError(it) }
+            )
             .addTo(disposables)
     }
 
-    private fun savePosterUrl(movieImages: MovieImages) {
-        val width = getProperPosterSize(apiConfiguration.images.posterSizes)
-        val path = movieImages.posters[0].file_path
+    private fun convertMovieDetailsToBuilder(movieDetails: MovieDetails) =
+        MovieDetailsDisplay.Builder()
+            .apply {
+                title = movieDetails.title
+                genres = movieDetails.genres.map { it.name }
+                releaseDate = formatDate(movieDetails.release_date)
+            }
+            .let { Single.just(it) }
 
-        movieDetailsDisplay.posterUrl = Uri.parse(apiConfiguration.images.baseUrl)
-            .buildUpon()
-            .appendPath(width)
-            .appendEncodedPath(path)
-            .build()
-            .toString()
-    }
+    private fun addPosterUrl(id: Int, builder: MovieDetailsDisplay.Builder) =
+        moviesService.getMovieImages(id)
+            .flatMap { movieImages ->
+                val width = getProperPosterSize(apiConfiguration.images.posterSizes)
+                val path = movieImages.posters[0].file_path
 
-    private fun saveMovieDetails(movieDetails: MovieDetails) {
-        movieDetailsDisplay.apply {
-            title = movieDetails.title
-            genres = movieDetails.genres.map { it.name }
-            releaseDate = formatDate(movieDetails.release_date)
-        }
-    }
+                val posterUrl =
+                    Uri.parse(apiConfiguration.images.baseUrl)
+                        .buildUpon()
+                        .appendPath(width)
+                        .appendEncodedPath(path)
+                        .build()
+                        .toString()
+
+                builder
+                    .apply { this.posterUrl = posterUrl }
+                    .let { Single.just(it) }
+            }
+
+    private fun addMovieCredits(id: Int, builder: MovieDetailsDisplay.Builder) =
+        moviesService.getMovieCredits(id)
+            .flatMap {
+                builder
+                    .apply { this.credits = it }
+                    .let { Single.just(it) }
+            }
 
     @SuppressLint("SimpleDateFormat")
     private fun formatDate(date: String): String {
@@ -81,8 +95,8 @@ class MovieDetailsPresenter @Inject constructor(
         return newFormat.format(parsedDate)
     }
 
-    private fun setMovieDetails() {
-        view.displayDetails(movieDetailsDisplay)
+    private fun setMovieDetails(details: MovieDetailsDisplay) {
+        view.displayDetails(details)
     }
 
     private fun setMovieDetailsError(throwable: Throwable) {
@@ -91,12 +105,22 @@ class MovieDetailsPresenter @Inject constructor(
 
     private fun getProperPosterSize(sizes: List<String>) = sizes.getOrElse(2) { sizes.last() }
 
-    class MovieDetailsDisplay {
-        lateinit var posterUrl: String
-        lateinit var title: String
-        lateinit var genres: List<String>
-        lateinit var releaseDate: String
-        lateinit var error: String
-        lateinit var credits: Credits
+    data class MovieDetailsDisplay(
+        val posterUrl: String,
+        val title: String,
+        val genres: List<String>,
+        val releaseDate: String,
+        val credits: Credits
+    ) {
+
+        class Builder {
+            lateinit var posterUrl: String
+            lateinit var title: String
+            lateinit var genres: List<String>
+            lateinit var releaseDate: String
+            lateinit var credits: Credits
+
+            fun build() = MovieDetailsDisplay(posterUrl, title, genres, releaseDate, credits)
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.moviesapp
+package com.example.moviesapp.discover
 
 import com.example.moviesapp.api.configuration.ConfigurationService
 import com.example.moviesapp.api.movies.discover.DiscoverService

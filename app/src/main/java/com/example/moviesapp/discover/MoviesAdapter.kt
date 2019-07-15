@@ -1,4 +1,4 @@
-package com.example.moviesapp
+package com.example.moviesapp.discover
 
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviesapp.R
 import com.example.moviesapp.api.movies.discover.models.Movie
 
 class MoviesAdapter(
