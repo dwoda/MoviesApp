@@ -1,9 +1,9 @@
 package com.example.moviesapp.di
 
-import com.example.moviesapp.api.ApiConstants
 import com.example.moviesapp.api.configuration.ConfigurationApi
 import com.example.moviesapp.api.movies.MoviesApi
 import com.example.moviesapp.api.movies.discover.DiscoverApi
+import com.example.moviesapp.configuration.ApiKeyHttpInterceptor
 import com.example.moviesapp.configuration.DeviceConfiguration
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
@@ -63,19 +63,10 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(apiConstants: ApiConstants): OkHttpClient =
+    fun provideOkHttpClient(apiKeyHttpInterceptor: ApiKeyHttpInterceptor): OkHttpClient =
         OkHttpClient
             .Builder()
-            .addInterceptor { chain ->
-                val request = chain.request()
-                val url = request
-                    .url()
-                    .newBuilder()
-                    .addQueryParameter("api_key", apiConstants.apiKey)
-                    .build()
-                val newRequest = request.newBuilder().url(url).build()
-                chain.proceed(newRequest)
-            }
+            .addInterceptor(apiKeyHttpInterceptor)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 }
