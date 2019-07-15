@@ -13,9 +13,9 @@ import dagger.android.DaggerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : DaggerActivity(), MainActivityContract.View {
+class DiscoverMoviesActivity : DaggerActivity(), DiscoverMoviesContract.View {
     @Inject
-    lateinit var presenter: MainActivityPresenter
+    lateinit var presenter: DiscoverMoviesPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

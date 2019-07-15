@@ -10,18 +10,18 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainActivityPresenter @Inject constructor(
+class DiscoverMoviesPresenter @Inject constructor(
     private val discoverService: DiscoverService,
     private val configurationService: ConfigurationService,
     private val apiConfiguration: ApiConfiguration
 ) :
-    MainActivityContract.Presenter {
+    DiscoverMoviesContract.Presenter {
 
-    private lateinit var view: MainActivityContract.View
+    private lateinit var view: DiscoverMoviesContract.View
 
     private val disposables = CompositeDisposable()
 
-    override fun attachView(view: MainActivityContract.View) {
+    override fun attachView(view: DiscoverMoviesContract.View) {
         this.view = view
         view.setInitialState()
         getInitialData()
@@ -37,7 +37,7 @@ class MainActivityPresenter @Inject constructor(
 
     private fun getInitialData() {
         configurationService.getConfiguration()
-            .doOnSuccess { apiConfiguration.setConfiguration(it) }
+            .flatMap { apiConfiguration.setConfiguration(it) }
             .flatMap { discoverService.discoverMovies() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

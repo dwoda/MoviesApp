@@ -1,6 +1,6 @@
 package com.example.moviesapp.di
 
-import com.example.moviesapp.discover.MainActivity
+import com.example.moviesapp.discover.DiscoverMoviesActivity
 import com.example.moviesapp.details.MovieDetailsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
-    abstract fun contributesMainActivity(): MainActivity
+    abstract fun contributesMainActivity(): DiscoverMoviesActivity
 
     @ContributesAndroidInjector
     abstract fun contributesMovieDetailsActivity(): MovieDetailsActivity
