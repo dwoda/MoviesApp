@@ -1,7 +1,8 @@
 package com.example.moviesapp.api
 
 import com.example.moviesapp.BuildConfig
+import javax.inject.Inject
 
-object ApiConstants {
-    const val apiKey = BuildConfig.API_KEY
+class ApiConstants @Inject constructor() {
+    val apiKey = BuildConfig.API_KEY
 }
