@@ -4,6 +4,7 @@ import com.example.moviesapp.api.configuration.ConfigurationService
 import com.example.moviesapp.api.movies.discover.DiscoverService
 import com.example.moviesapp.api.movies.discover.models.DiscoverMovies
 import com.example.moviesapp.configuration.ApiConfiguration
+import com.example.moviesapp.services.storage.StorageService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -13,10 +14,10 @@ import javax.inject.Inject
 class DiscoverMoviesPresenter @Inject constructor(
     private val discoverService: DiscoverService,
     private val configurationService: ConfigurationService,
-    private val apiConfiguration: ApiConfiguration
+    private val apiConfiguration: ApiConfiguration,
+    private val storageService: StorageService
 ) :
     DiscoverMoviesContract.Presenter {
-
     private lateinit var view: DiscoverMoviesContract.View
 
     private val disposables = CompositeDisposable()
@@ -33,6 +34,10 @@ class DiscoverMoviesPresenter @Inject constructor(
 
     override fun onItemSelected(id: Int) {
         view.openMovieDetails(id)
+    }
+
+    override fun onItemFavouriteIconSelected(id: Int) {
+        storageService.addFavourite(id)
     }
 
     private fun getInitialData() {

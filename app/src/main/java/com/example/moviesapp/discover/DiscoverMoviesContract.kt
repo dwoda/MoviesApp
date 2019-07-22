@@ -14,6 +14,7 @@ interface DiscoverMoviesContract {
     interface Presenter {
         fun attachView(view: View)
         fun onItemSelected(id: Int)
+        fun onItemFavouriteIconSelected(id: Int)
         fun detachView()
     }
 }

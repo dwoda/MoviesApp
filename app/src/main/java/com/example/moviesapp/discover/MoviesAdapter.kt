@@ -4,11 +4,13 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.R
 import com.example.moviesapp.api.movies.discover.models.Movie
+import com.example.moviesapp.services.storage.StorageService
 
 class MoviesAdapter(
     private val movies: List<Movie>,
@@ -18,6 +20,7 @@ class MoviesAdapter(
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val movieTitle: TextView = view.findViewById(R.id.movie_title)
         val movieRating: TextView = view.findViewById(R.id.movie_rating)
+        val favouriteStar: ImageView = view.findViewById(R.id.favourite_star)
     }
 
     override fun onCreateViewHolder(
@@ -37,10 +40,12 @@ class MoviesAdapter(
 
         holder.movieTitle.text = movie.title
         holder.movieRating.text = movie.rating.toString()
+        holder.favouriteStar.setImageResource(R.drawable.ic_star_border_black_24dp)
 
         val color = ContextCompat.getColor(holder.movieRating.context, getRatingColor(movie.rating))
         (holder.movieRating.background as GradientDrawable).setColor(color)
 
+        holder.favouriteStar.setOnClickListener { presenter.onItemFavouriteIconSelected(movie.id) }
         holder.view.setOnClickListener { presenter.onItemSelected(movie.id) }
     }
 
