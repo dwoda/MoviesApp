@@ -2,9 +2,9 @@ package com.example.moviesapp.details
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import com.example.moviesapp.api.movies.MoviesService
-import com.example.moviesapp.api.movies.models.Credits
-import com.example.moviesapp.api.movies.models.MovieDetails
+import com.example.moviesapp.services.movies.MoviesService
+import com.example.moviesapp.api.movies.models.CreditsPojo
+import com.example.moviesapp.api.movies.models.MovieDetailsPojo
 import com.example.moviesapp.configuration.ApiConfiguration
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -52,7 +52,7 @@ class MovieDetailsPresenter @Inject constructor(
             .addTo(disposables)
     }
 
-    private fun convertMovieDetailsToBuilder(movieDetails: MovieDetails) =
+    private fun convertMovieDetailsToBuilder(movieDetails: MovieDetailsPojo) =
         MovieDetailsDisplay.Builder()
             .apply {
                 title = movieDetails.title
@@ -110,7 +110,7 @@ class MovieDetailsPresenter @Inject constructor(
         val title: String,
         val genres: List<String>,
         val releaseDate: String,
-        val credits: Credits
+        val credits: CreditsPojo
     ) {
 
         class Builder {
@@ -118,7 +118,7 @@ class MovieDetailsPresenter @Inject constructor(
             lateinit var title: String
             lateinit var genres: List<String>
             lateinit var releaseDate: String
-            lateinit var credits: Credits
+            lateinit var credits: CreditsPojo
 
             fun build() = MovieDetailsDisplay(posterUrl, title, genres, releaseDate, credits)
         }

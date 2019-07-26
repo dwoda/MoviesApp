@@ -2,7 +2,7 @@ package com.example.moviesapp.api.movies.models
 
 import com.google.gson.annotations.SerializedName
 
-data class CrewMember(
+data class CrewMemberPojo(
     @SerializedName("credit_id")
     val creditId: String,
     @SerializedName("department")

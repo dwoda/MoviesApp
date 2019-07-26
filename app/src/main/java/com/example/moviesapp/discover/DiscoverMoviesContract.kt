@@ -1,6 +1,6 @@
 package com.example.moviesapp.discover
 
-import com.example.moviesapp.api.movies.discover.models.Movie
+import com.example.moviesapp.domain.models.Movie
 
 interface DiscoverMoviesContract {
 
@@ -9,6 +9,7 @@ interface DiscoverMoviesContract {
         fun displayError(message: String?)
         fun setInitialState()
         fun openMovieDetails(id: Int)
+        fun reloadList()
     }
 
     interface Presenter {

@@ -2,7 +2,7 @@ package com.example.moviesapp.api.movies.discover.models
 
 import com.google.gson.annotations.SerializedName
 
-data class DiscoverMovies(
+data class DiscoverMoviesPojo(
     @SerializedName("results")
-    val results: List<Movie>
+    val results: List<MoviePojo>
 )

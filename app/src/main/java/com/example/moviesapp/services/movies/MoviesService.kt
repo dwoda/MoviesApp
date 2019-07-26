@@ -1,5 +1,6 @@
-package com.example.moviesapp.api.movies
+package com.example.moviesapp.services.movies
 
+import com.example.moviesapp.api.movies.MoviesApi
 import com.example.moviesapp.configuration.DeviceConfiguration
 import javax.inject.Inject
 

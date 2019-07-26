@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.R
-import com.example.moviesapp.api.movies.models.CastMember
+import com.example.moviesapp.api.movies.models.CastMemberPojo
 
 class CreditsAdapter(
-    private val credits: List<CastMember>
+    private val credits: List<CastMemberPojo>
 ) : RecyclerView.Adapter<CreditsAdapter.CreditsViewHolder>() {
 
     class CreditsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

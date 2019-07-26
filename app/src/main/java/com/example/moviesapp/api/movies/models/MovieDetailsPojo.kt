@@ -2,7 +2,7 @@ package com.example.moviesapp.api.movies.models
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieDetails(
+data class MovieDetailsPojo(
     @SerializedName("title")
     val title: String,
     @SerializedName("tagline")
@@ -14,5 +14,5 @@ data class MovieDetails(
     @SerializedName("release_date")
     val release_date: String,
     @SerializedName("genres")
-    val genres: List<Genre>
+    val genres: List<GenrePojo>
 )
