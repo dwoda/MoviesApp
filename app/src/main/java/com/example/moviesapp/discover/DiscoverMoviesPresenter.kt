@@ -57,5 +57,4 @@ class DiscoverMoviesPresenter @Inject constructor(
         view.setTitles(discoverService.cachedMovies)
 //        view.setTitles(it)
     }
-    }
 }
