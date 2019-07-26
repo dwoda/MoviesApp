@@ -9,7 +9,4 @@ data class MoviePojo(
     val rating: Double,
     @SerializedName("id")
     val id: Int
-) {
-
-    var isFavourited: Boolean = false
-}
+)
