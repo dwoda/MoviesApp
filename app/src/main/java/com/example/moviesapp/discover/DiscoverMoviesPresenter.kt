@@ -1,9 +1,9 @@
 package com.example.moviesapp.discover
 
-import com.example.moviesapp.api.configuration.ConfigurationService
-import com.example.moviesapp.api.movies.discover.DiscoverService
-import com.example.moviesapp.api.movies.discover.models.DiscoverMovies
-import com.example.moviesapp.configuration.ApiConfiguration
+import com.example.moviesapp.domain.models.Movie
+import com.example.moviesapp.services.configuration.ConfigurationService
+import com.example.moviesapp.services.discover.DiscoverService
+import com.example.moviesapp.services.favourites.FavouritesService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -13,10 +13,9 @@ import javax.inject.Inject
 class DiscoverMoviesPresenter @Inject constructor(
     private val discoverService: DiscoverService,
     private val configurationService: ConfigurationService,
-    private val apiConfiguration: ApiConfiguration
+    private val favouritesService: FavouritesService
 ) :
     DiscoverMoviesContract.Presenter {
-
     private lateinit var view: DiscoverMoviesContract.View
 
     private val disposables = CompositeDisposable()
@@ -35,10 +34,15 @@ class DiscoverMoviesPresenter @Inject constructor(
         view.openMovieDetails(id)
     }
 
+    override fun onItemFavouriteIconSelected(id: Int) {
+        favouritesService.toggleFavourite(id)
+        discoverService.updateFavourites()
+        view.reloadList()
+    }
+
     private fun getInitialData() {
-        configurationService.getConfiguration()
-            .flatMap { apiConfiguration.setConfiguration(it) }
-            .flatMap { discoverService.discoverMovies() }
+        configurationService.setApiConfiguration()
+            .flatMap { discoverService.getMovies() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onDataFetchSuccess, ::onDataFetchError)
@@ -49,7 +53,8 @@ class DiscoverMoviesPresenter @Inject constructor(
         view.displayError(it.message)
     }
 
-    private fun onDataFetchSuccess(it: DiscoverMovies) {
-        view.setTitles(it.results.subList(0, 20))
+    private fun onDataFetchSuccess(it: List<Movie>) {
+        view.setTitles(discoverService.cachedMovies)
+//        view.setTitles(it)
     }
 }

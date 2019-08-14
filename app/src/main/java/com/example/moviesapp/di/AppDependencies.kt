@@ -9,7 +9,8 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [ActivitiesModule::class, ApiModule::class, AndroidInjectionModule::class]
+//    modules = [ActivitiesModule::class, ApiModule::class, AndroidInjectionModule::class]
+    modules = [ActivitiesModule::class, ApiModule::class, AndroidInjectionModule::class, AppModule::class]
 )
 interface AppDependencies : AndroidInjector<MoviesApp> {
     override fun inject(application: MoviesApp)
@@ -18,6 +19,8 @@ interface AppDependencies : AndroidInjector<MoviesApp> {
     interface Builder {
         @BindsInstance
         fun application(application: MoviesApp): Builder
+
+        fun appModule(appModule: AppModule): Builder
 
         fun build(): AppDependencies
     }

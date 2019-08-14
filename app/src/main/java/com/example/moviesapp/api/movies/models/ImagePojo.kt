@@ -2,7 +2,7 @@ package com.example.moviesapp.api.movies.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Image(
+data class ImagePojo(
     @SerializedName("aspect_ratio")
     val aspect_ratio: Double,
     @SerializedName("file_path")

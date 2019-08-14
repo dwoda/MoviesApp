@@ -2,7 +2,7 @@ package com.example.moviesapp.api.configuration.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Images(
+data class ImagesPojo(
     @SerializedName("base_url")
     val baseUrl: String,
     @SerializedName("secure_base_url")

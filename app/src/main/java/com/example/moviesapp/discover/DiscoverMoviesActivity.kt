@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesapp.R
-import com.example.moviesapp.api.movies.discover.models.Movie
+import com.example.moviesapp.domain.models.Movie
 import com.example.moviesapp.details.MovieDetailsActivity
 import dagger.android.AndroidInjection
 import dagger.android.DaggerActivity
@@ -56,6 +56,10 @@ class DiscoverMoviesActivity : DaggerActivity(), DiscoverMoviesContract.View {
         Intent(this, MovieDetailsActivity::class.java)
             .apply { putExtra("MOVIE_ID", id) }
             .let { startActivity(it) }
+    }
+
+    override fun reloadList() {
+        movies_recycler_view.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {

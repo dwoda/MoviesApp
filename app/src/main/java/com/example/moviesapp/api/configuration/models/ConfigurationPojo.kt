@@ -2,9 +2,9 @@ package com.example.moviesapp.api.configuration.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Configuration(
+data class ConfigurationPojo(
     @SerializedName("images")
-    val images: Images,
+    val images: ImagesPojo,
     @SerializedName("change_keys")
     val changeKeys: List<String>
 )

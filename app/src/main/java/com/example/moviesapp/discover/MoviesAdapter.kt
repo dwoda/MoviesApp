@@ -4,11 +4,12 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.R
-import com.example.moviesapp.api.movies.discover.models.Movie
+import com.example.moviesapp.domain.models.Movie
 
 class MoviesAdapter(
     private val movies: List<Movie>,
@@ -18,6 +19,7 @@ class MoviesAdapter(
     class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val movieTitle: TextView = view.findViewById(R.id.movie_title)
         val movieRating: TextView = view.findViewById(R.id.movie_rating)
+        val favouriteStar: ImageView = view.findViewById(R.id.favourite_star)
     }
 
     override fun onCreateViewHolder(
@@ -37,10 +39,16 @@ class MoviesAdapter(
 
         holder.movieTitle.text = movie.title
         holder.movieRating.text = movie.rating.toString()
+        holder.favouriteStar.setFavouriteIcon(movie)
 
         val color = ContextCompat.getColor(holder.movieRating.context, getRatingColor(movie.rating))
         (holder.movieRating.background as GradientDrawable).setColor(color)
 
+        holder.favouriteStar.setOnClickListener {
+            presenter.onItemFavouriteIconSelected(movie.id)
+            this.notifyDataSetChanged()
+            println("DW_RECYCLER_CHANGED")
+        }
         holder.view.setOnClickListener { presenter.onItemSelected(movie.id) }
     }
 
@@ -50,5 +58,13 @@ class MoviesAdapter(
         in 0..4 -> R.color.badRating
         in 5..7 -> R.color.mediumRating
         else -> R.color.goodRating
+    }
+
+    private fun ImageView.setFavouriteIcon(movie: Movie) {
+        if (movie.isFavourite) {
+            this.setImageResource(R.drawable.ic_star_black_24dp)
+        } else {
+            this.setImageResource(R.drawable.ic_star_border_black_24dp)
+        }
     }
 }

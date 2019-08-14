@@ -2,7 +2,7 @@ package com.example.moviesapp.api.movies.models
 
 import com.google.gson.annotations.SerializedName
 
-data class CastMember(
+data class CastMemberPojo(
     @SerializedName("cast_id")
     val castId: Int,
     @SerializedName("character")
